@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Livrinho - Taylor Swift</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lora', serif;
+    background: #e8dfd5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 20px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  .page-left, .page-right, .flip-content {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  .book {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    height: 85vh;
+    height: 85dvh;
+    perspective: 2000px;
+    animation: bookAppear 1s ease-out both;
+  }
+  @keyframes bookAppear {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Fundo da capa (atras do livro aberto) */
+  .book-cover {
+    position: absolute;
+    inset: -16px -16px -16px -16px;
+    border-radius: 6px 22px 22px 6px;
+    background: linear-gradient(160deg, #8b6f5e 0%, #6b5344 30%, #5a4338 60%, #4a3528 100%);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.35), 0 10px 20px rgba(0,0,0,0.15);
+    z-index: -1;
+  }
+
+  /* Fita marcadora */
+  .ribbon {
+    position: absolute;
+    top: -8px;
+    right: 50%;
+    transform: translateX(40px);
+    width: 18px;
+    height: 55px;
+    background: linear-gradient(180deg, #c43a4a, #a8323f, #8b2a35);
+    z-index: 15;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .ribbon::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 0;
+    border-left: 9px solid #8b2a35;
+    border-right: 9px solid #8b2a35;
+    border-bottom: 7px solid transparent;
+    transform: translateY(100%);
+  }
+
+  /* Area visivel do livro (as duas paginas) */
+  .spread {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    border-radius: 4px 18px 18px 4px;
+    overflow: hidden;
+    box-shadow:
+      2px 0 12px rgba(0,0,0,0.1),
+      0 2px 6px rgba(0,0,0,0.06);
+  }
+
+  /* Pagina esquerda */
+  .page-left {
+    width: 50%;
+    height: 100%;
+    background: #faf6f0;
+    padding: 30px 18px 30px 24px;
+    overflow-y: auto;
+    position: relative;
+    border-right: 1px solid rgba(0,0,0,0.05);
+    box-shadow: inset -4px 0 8px rgba(0,0,0,0.04);
+  }
+
+  /* Pagina direita */
+  .page-right {
+    width: 50%;
+    height: 100%;
+    background: #faf6f0;
+    padding: 30px 24px 30px 18px;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: inset 3px 0 6px rgba(0,0,0,0.03);
+  }
+
+  /* Pagina que esta virando */
+  .page-flip {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 50%;
+    background: #faf6f0;
+    overflow: hidden;
+    z-index: 10;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* Pra frente: dobra da direita pra esquerda (pivô na lombada) */
+  .page-flip.forward {
+    right: 0;
+    transform-origin: left center;
+    transform: rotateY(0deg);
+    border-radius: 0 16px 16px 0;
+    box-shadow: -4px 0 12px rgba(0,0,0,0.08);
+  }
+  .page-flip.forward.animating {
+    transform: rotateY(-170deg);
+  }
+  /* Pra tras: pagina esquerda gira pra direita (pivô na lombada) */
+  .page-flip.backward {
+    left: 0;
+    transform-origin: right center;
+    transform: rotateY(0deg);
+    border-radius: 16px 0 0 16px;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.08);
+  }
+  .page-flip.backward.animating {
+    transform: rotateY(155deg);
+  }
+
+  /* Conteudo dentro da pagina flipped */
+  .flip-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    background: #faf6f0;
+  }
+  .page-flip.forward .flip-content {
+    padding: 30px 18px 30px 24px;
+    border-radius: 0 16px 16px 0;
+    box-shadow: inset 3px 0 6px rgba(0,0,0,0.03);
+  }
+  .page-flip.backward .flip-content {
+    padding: 30px 24px 30px 18px;
+    border-radius: 16px 0 0 16px;
+    box-shadow: inset -4px 0 8px rgba(0,0,0,0.04);
+  }
+
+  /* Lombada (spine) no centro */
+  .spine-line {
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(0,0,0,0.06);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Area de toque nas paginas (clique na borda) */
+  .page-left, .page-right {
+    cursor: pointer;
+  }
+
+  /* Elementos de pagina */
+  .page-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #8b7355;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .page-number {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.6rem;
+    color: #c4b8a8;
+    letter-spacing: 1px;
+  }
+  .content-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #4a3728;
+    margin-bottom: 4px;
+  }
+  .content-rule {
+    width: 30px;
+    height: 1.5px;
+    background: #c4a882;
+    margin-bottom: 16px;
+  }
+  .content-text {
+    font-size: 0.82rem;
+    color: #5a4836;
+    line-height: 1.75;
+  }
+  .content-text p { margin-bottom: 10px; }
+  .content-highlight {
+    font-family: 'Caveat', cursive;
+    font-size: 1rem;
+    color: #8b6f5e;
+    line-height: 1.6;
+    padding: 10px 0;
+    margin: 10px 0;
+    border-top: 1px solid #e0d5c5;
+    border-bottom: 1px solid #e0d5c5;
+  }
+
+  /* Capa */
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4a3728;
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .cover-decoration {
+    width: 50px;
+    height: 1px;
+    background: #c4a882;
+    margin: 0 auto 20px;
+  }
+  .cover-subtitle {
+    font-family: 'Lora', serif;
+    font-size: 0.8rem;
+    color: #8b7355;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .cover-hint {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.65rem;
+    color: #b8a890;
+    letter-spacing: 2px;
+    text-align: center;
+    animation: hintPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* Contador */
+  .counter-box { text-align: center; padding: 14px 0; }
+  .counter-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #6b5344;
+    line-height: 1;
+    display: inline-block;
+    position: relative;
+  }
+  .counter-number::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 10%;
+    width: 80%; height: 1px;
+    background: linear-gradient(to right, transparent, #c4a882, transparent);
+  }
+  .counter-label {
+    font-size: 0.75rem;
+    color: #9b8870;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .counter-small {
+    font-size: 0.7rem;
+    color: #b8a890;
+    margin-top: 16px;
+    font-style: italic;
+  }
+
+  /* Cantinho Dela */
+  .journal-prompt {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.7rem;
+    color: #8b7355;
+    margin-bottom: 3px;
+    letter-spacing: 1px;
+  }
+  .journal-line {
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #d5c8b8;
+    background: transparent;
+    font-family: 'Caveat', cursive;
+    font-size: 0.9rem;
+    color: #4a3728;
+    padding: 4px 4px;
+    margin-bottom: 14px;
+    outline: none;
+  }
+  .journal-line:focus { border-bottom-color: #8b6f5e; }
+  .journal-line::placeholder {
+    color: #c4b8a8;
+    font-style: italic;
+    font-size: 0.75rem;
+    font-family: 'Lora', serif;
+  }
+  .journal-area {
+    display: block;
+    width: 100%;
+    border: 1px solid #e0d5c5;
+    border-radius: 4px;
+    background: rgba(238,232,222,0.4);
+    font-family: 'Caveat', cursive;
+    font-size: 0.88rem;
+    color: #4a3728;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    outline: none;
+    resize: none;
+    min-height: 60px;
+    line-height: 1.6;
+  }
+  .journal-area:focus { border-color: #8b6f5e; }
+  .journal-area::placeholder {
+    color: #c4b8a8;
+    font-style: italic;
+    font-size: 0.78rem;
+    font-family: 'Lora', serif;
+  }
+  .journal-saved {
+    text-align: right;
+    font-size: 0.6rem;
+    color: #b8a890;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .journal-saved.show { opacity: 1; }
+
+  /* Bolinhas */
+  .page-dots {
+    position: absolute;
+    bottom: -34px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 30;
+  }
+  .page-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #ccc0b0;
+    transition: all 0.5s ease;
+  }
+  .page-dot.current {
+    background: #6b5344;
+    width: 16px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(107,83,68,0.2);
+  }
+
+  .scroll::-webkit-scrollbar { width: 2px; }
+  .scroll::-webkit-scrollbar-track { background: transparent; }
+  .scroll::-webkit-scrollbar-thumb { background: #d5c8b8; border-radius: 2px; }
+
+  @media (max-width: 520px) {
+    .page-left { padding: 22px 12px 22px 16px; }
+    .page-right { padding: 22px 16px 22px 12px; }
+    .flip-content { padding: 22px 12px 22px 16px; }
+    .content-text { font-size: 0.75rem; }
+    .content-title { font-size: 1rem; }
+    .cover-title { font-size: 1.4rem; }
+    .counter-number { font-size: 2.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="book" id="book">
+  <div class="book-cover"></div>
+  <div class="ribbon"></div>
+
+  <div class="spread">
+    <div class="page-left scroll" id="pageLeft"></div>
+    <div class="page-right scroll" id="pageRight"></div>
+  </div>
+
+  <div class="spine-line"></div>
+
+  <div class="page-flip" id="pageFlip">
+    <div class="flip-content scroll" id="flipContent"></div>
+  </div>
+
+  <div class="page-dots" id="pageDots"></div>
+</div>
+
+<script>
+const TOTAL_PAGES = 13;
+
+// Conteudo de todas as paginas (HTML bruto)
+const pageContent = [
+  // Pagina 0: Capa
+  `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;">
+    <div class="cover-title">Taylor<br>Swift</div>
+    <div class="cover-decoration"></div>
+    <div class="cover-subtitle">um pequeno livro de curiosidades</div>
+    <div class="cover-hint">toque para folhear</div>
+  </div>`,
+
+  // Pagina 1: Origem
+  `<div class="page-header">Curiosidade 1</div>
+  <div class="content-title">De onde veio o nome</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor Alison Swift nasceu em 13 de dezembro de 1989, em Reading, Pennsylvania. O nome "Taylor" foi escolhido por sua mae porque e um nome de genero neutro — Andrea Swift queria que a filha fosse julgada pelo talento, nao pelo genero.</p>
+    <p>A familia se mudou para Nashville quando Taylor tinha 14 anos, apostando tudo no sonho musical.</p>
+    <div class="content-highlight">"Nao existem pessoas que nao tem nada a dizer. So existem pessoas que tem medo de dizer."</div>
+  </div>
+  <div class="page-number">— 1 —</div>`,
+
+  // Pagina 2: Numero 13
+  `<div class="page-header">Curiosidade 2</div>
+  <div class="content-title">O numero 13</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor considera o 13 seu numero da sorte. Nasceu no dia 13 de dezembro. Fez 13 anos numa sexta-feira 13. Seu primeiro album foi ouro em 13 semanas.</p>
+    <p>Em todos os shows, escreve o numero 13 na mao direita antes de subir ao palco. Os fas retribuem o gesto.</p>
+    <p>No Spotify, quebrou recordes em 13 mercados simultaneos com o album <em>Midnights</em>.</p>
+  </div>
+  <div class="page-number">— 2 —</div>`,
+
+  // Pagina 3: Compositora
+  `<div class="page-header">Curiosidade 3</div>
+  <div class="content-title">Compositora desde sempre</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Aos 12 anos, Taylor ja escrevia suas proprias cancoes. Aprendeu violao sozinha — um tecnico que foi arrumar algo na casa dela a ensinou tres acordes. O resto descobriu por conta propria.</p>
+    <p>E a unica artista a ganhar o premio de Compositora do Ano da NSAI por sete vezes.</p>
+    <p>Escreveu sozinha o album <em>Speak Now</em> inteiro, como resposta aos criticos que duvidavam de sua autoria.</p>
+  </div>
+  <div class="page-number">— 3 —</div>`,
+
+  // Pagina 4: Gatos
+  `<div class="page-header">Curiosidade 4</div>
+  <div class="content-title">Ama gatos (e muito)</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor tem tres gatos: Meredith Grey, Olivia Benson (Scottish Folds) e Benjamin Button (Ragdoll). Os nomes vieram de personagens de series que ela ama.</p>
+    <p>Meredith e Olivia ja participaram de comerciais da Diet Coke. Benjamin foi adotado durante as gravacoes do clipe de "ME!" — ela se apaixonou por ele no set.</p>
+    <p>O patrimonio estimado das gatas? Cerca de 97 milhoes de dolares cada, segundo sites de pets de celebridades.</p>
+  </div>
+  <div class="page-number">— 4 —</div>`,
+
+  // Pagina 5: Regravacoes
+  `<div class="page-header">Curiosidade 5</div>
+  <div class="content-title">Taylor's Version</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Em 2019, os masters dos seus seis primeiros albuns foram vendidos sem o consentimento dela. A resposta? Regravar tudo.</p>
+    <p>O projeto "Taylor's Version" e um posicionamento sobre o direito de artistas serem donos da propria obra. Ela transformou uma derrota comercial num dos movimentos mais bem-sucedidos da industria.</p>
+    <div class="content-highlight">Cada regravacao superou a original em streams e vendas.</div>
+  </div>
+  <div class="page-number">— 5 —</div>`,
+
+  // Pagina 6: Eras Tour
+  `<div class="page-header">Curiosidade 6</div>
+  <div class="content-title">The Eras Tour</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>A "The Eras Tour" se tornou a turne mais lucrativa da historia, ultrapassando 1 bilhao de dolares. Cada show dura mais de 3 horas, com 44+ cancoes e 16 trocas de figurino.</p>
+    <p>O impacto economico foi tao grande que o termo "Swiftonomics" passou a ser usado por economistas. Cidades registraram recordes de ocupacao hoteleira.</p>
+    <p>Ao todo, mais de 10 milhoes de ingressos foram vendidos mundialmente.</p>
+  </div>
+  <div class="page-number">— 6 —</div>`,
+
+  // Pagina 7: Grammy
+  `<div class="page-header">Curiosidade 7</div>
+  <div class="content-title">Recordes no Grammy</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor e a unica artista a vencer Album do Ano quatro vezes: <em>Fearless</em> (2010), <em>1989</em> (2016), <em>Folklore</em> (2021) e <em>Midnights</em> (2024).</p>
+    <p>Tem 14 Grammy Awards e mais de 50 indicacoes. Possui 40 American Music Awards — mais do que qualquer outro artista na historia.</p>
+    <p>Com <em>Midnights</em>, foi a primeira a ocupar simultaneamente as 10 primeiras posicoes da Billboard Hot 100.</p>
+  </div>
+  <div class="page-number">— 7 —</div>`,
+
+  // Pagina 8: Filantropia
+  `<div class="page-header">Curiosidade 8</div>
+  <div class="content-title">Generosidade silenciosa</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor e conhecida por fazer doacoes significativas sem anunciar publicamente. Durante a pandemia, ajudou financeiramente diversos fas em dificuldades.</p>
+    <p>Em 2015, doou 50 mil dolares para uma fa com cancer. Doou 1989 dolares para varios fas endividados com emprestimos estudantis.</p>
+    <p>Durante a The Eras Tour, fez doacoes milionarias para bancos de alimentos em todas as cidades por onde passou.</p>
+  </div>
+  <div class="page-number">— 8 —</div>`,
+
+  // Pagina 9: Easter Eggs
+  `<div class="page-header">Curiosidade 9</div>
+  <div class="content-title">Easter eggs escondidos</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor esconde pistas nos minimos detalhes. No clipe de "ME!", o letreiro no fundo ja dizia "Lover" — o nome do album que ninguem sabia ainda.</p>
+    <p>Usa a cor vermelha em clipes para paixao intensa, dourado para nostalgia, e azul para tristeza. No clipe de "Cardigan", ha uma referencia ao quadro "The Lovers".</p>
+    <div class="content-highlight">No clipe de "Bejeweled", ha uma referencia ao sequestro do Oscar de 2023 — filmado meses antes do acontecimento real.</div>
+  </div>
+  <div class="page-number">— 9 —</div>`,
+
+  // Pagina 10: Contador
+  `<div class="page-header">Nosso tempo</div>
+  <div class="content-title">Desde o dia que a gente comecou</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <div class="counter-box">
+      <div class="counter-number" id="dayCounter">0</div>
+      <div class="counter-label">dias juntos</div>
+      <div class="counter-small">desde 4 de outubro de 2025</div>
+    </div>
+    <p style="margin-top:20px;">Cada dia ao seu lado e um capitulo novo. E se esse livrinho pudesse ter paginas infinitas, eu preencheria todas com os momentos que a gente ainda vai viver.</p>
+  </div>
+  <div class="page-number">— 10 —</div>`,
+
+  // Pagina 11: Cantinho Dela
+  `<div class="page-header">Seu espaco</div>
+  <div class="content-title">Meu Cantinho</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p style="font-size:0.72rem;color:#9b8870;margin-bottom:18px;">Esse espaco e seu. Preencha como quiser — fica salvo aqui pra sempre que abrir o livrinho.</p>
+    <label class="journal-prompt">Meu album favorito:</label>
+    <input type="text" class="journal-line journal-field" placeholder="ex: folklore, 1989..." data-key="album">
+    <label class="journal-prompt">A musica que mais me define:</label>
+    <input type="text" class="journal-line journal-field" placeholder="ex: Mirrorball, Long Live..." data-key="song">
+    <label class="journal-prompt">Uma letra que me toca:</label>
+    <input type="text" class="journal-line journal-field" placeholder="escreva um trecho..." data-key="lyric">
+    <label class="journal-prompt">Um recadinho:</label>
+    <textarea class="journal-area journal-field" placeholder="escreva o que quiser..." data-key="note"></textarea>
+    <div class="journal-saved" id="journalSaved">salvo</div>
+  </div>
+  <div class="page-number">— 11 —</div>`,
+
+  // Pagina 12: Dedicacao
+  `<div class="page-header">E por ultimo...</div>
+  <div class="content-title">Uma dedicacao especial</div>
+  <div class="content-rule"></div>
+  <div class="content-text">
+    <p>Taylor Swift escreveu: <em>"The worst kind of person is someone who makes someone feel bad, dumb, or stupid for being excited about something."</em></p>
+    <p>E eu vejo seus olhos brilharem quando fala dela — da musica, das letras, dos shows. Vejo voce cantarolar as cancoes distraidamente. Essa paixao genuina que voce carrega... e uma das coisas que mais admiro em voce.</p>
+    <div class="content-highlight">
+      Fiz esse livrinho como um jeito simples de dizer:<br>
+      eu presto atencao. no que voce ama,<br>
+      no que te faz feliz, em voce.
+    </div>
+    <p style="text-align:right;margin-top:10px;color:#8b7355;font-style:italic;">— com carinho, de quem te adora.</p>
+  </div>
+  <div class="page-number">&nbsp;</div>`
+];
+
+// Estado
+let currentPage = 0;  // pagina que esta na direita (0 a 12)
+let isAnimating = false;
+
+const elLeft = document.getElementById('pageLeft');
+const elRight = document.getElementById('pageRight');
+const elFlip = document.getElementById('pageFlip');
+const elFlipContent = document.getElementById('flipContent');
+const elDots = document.getElementById('pageDots');
+
+// Bolinhas
+for (let i = 0; i < TOTAL_PAGES; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'page-dot';
+  if (i === 0) dot.classList.add('current');
+  elDots.appendChild(dot);
+}
+
+function updateDots() {
+  const dots = elDots.querySelectorAll('.page-dot');
+  dots.forEach((d, i) => d.classList.toggle('current', i === currentPage));
+}
+
+function updateTouchAreas() {
+  elLeft.style.cursor = currentPage === 0 ? 'default' : 'pointer';
+  elRight.style.cursor = currentPage === TOTAL_PAGES - 1 ? 'default' : 'pointer';
+}
+
+// Renderizar o spread (pagina esquerda e direita)
+function renderSpread() {
+  if (currentPage === 0) {
+    elLeft.innerHTML = '';
+    elRight.innerHTML = pageContent[0];
+  } else {
+    elLeft.innerHTML = pageContent[currentPage - 1];
+    elRight.innerHTML = pageContent[currentPage];
+  }
+  // Recarregar campos do journal se for a pagina 11
+  if (currentPage === 11 || currentPage - 1 === 11) loadJournal();
+  // Atualizar contador
+  updateDayCounter();
+}
+
+// Flip para frente (pagina direita vira pra esquerda)
+function flipForward() {
+  if (isAnimating || currentPage >= TOTAL_PAGES - 1) return;
+  isAnimating = true;
+
+  // Conteudo da pagina atual (que vai virar)
+  elFlipContent.innerHTML = pageContent[currentPage];
+  elFlip.className = 'page-flip forward';
+  elFlip.style.display = 'block';
+
+  // Ja atualiza a pagina direita com o novo conteudo
+  elRight.innerHTML = pageContent[currentPage + 1];
+
+  // Forca reflow
+  elFlip.offsetHeight;
+
+  // Animacao
+  elFlip.classList.add('animating');
+
+  // Meio da animacao: atualiza a esquerda
+  setTimeout(() => {
+    elLeft.innerHTML = pageContent[currentPage];
+    elLeft.scrollTop = 0;
+  }, 350);
+
+  // Fim
+  setTimeout(() => {
+    elFlip.style.display = 'none';
+    elFlip.classList.remove('animating', 'forward');
+    currentPage++;
+    renderSpread();
+    updateDots();
+    updateTouchAreas();
+    isAnimating = false;
+  }, 700);
+}
+
+// Flip para tras (pagina esquerda gira sobre a lombada pra direita)
+function flipBackward() {
+  if (isAnimating || currentPage <= 0) return;
+  isAnimating = true;
+
+  const prevPage = currentPage - 1;
+
+  // Preenche flip com conteudo da pagina esquerda
+  elFlipContent.innerHTML = pageContent[prevPage];
+  elFlip.className = 'page-flip backward';
+  elFlip.style.display = 'block';
+
+  // Atualiza esquerda com a pagina anterior
+  elLeft.innerHTML = prevPage > 0 ? pageContent[prevPage - 1] : '';
+
+  // Forca reflow e inicia animacao
+  elFlip.offsetHeight;
+  elFlip.classList.add('animating');
+
+  // Meio: atualiza pagina direita
+  setTimeout(() => {
+    elRight.innerHTML = pageContent[prevPage];
+    elRight.scrollTop = 0;
+  }, 325);
+
+  // Fim
+  setTimeout(() => {
+    elFlip.style.display = 'none';
+    elFlip.classList.remove('animating', 'backward');
+    currentPage = prevPage;
+    renderSpread();
+    updateDots();
+    updateTouchAreas();
+    isAnimating = false;
+  }, 650);
+}
+
+// Toque / clique nas paginas (ignora inputs)
+elRight.addEventListener('click', (e) => {
+  const tag = e.target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'LABEL') return;
+  flipForward();
+});
+elLeft.addEventListener('click', (e) => {
+  const tag = e.target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'LABEL') return;
+  flipBackward();
+});
+
+// Swipe
+let touchStartX = 0, touchStartY = 0;
+document.getElementById('book').addEventListener('touchstart', (e) => {
+  const tag = e.target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.getElementById('book').addEventListener('touchend', (e) => {
+  if (isAnimating) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+    if (dx < 0) flipForward();
+    else flipBackward();
+  }
+});
+
+// Teclado
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') { e.preventDefault(); flipForward(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); flipBackward(); }
+});
+
+// Contador de dias
+const startDate = new Date(2025, 9, 4);
+function updateDayCounter() {
+  const el = document.getElementById('dayCounter');
+  if (!el) return;
+  const days = Math.floor((new Date() - startDate) / (1000 * 60 * 60 * 24));
+  el.textContent = days;
+}
+
+// Journal (Cantinho Dela)
+function loadJournal() {
+  document.querySelectorAll('.journal-field').forEach((field) => {
+    const key = 'livrinho_' + field.dataset.key;
+    const saved = localStorage.getItem(key);
+    if (saved) field.value = saved;
+    field.addEventListener('input', saveJournal);
+  });
+}
+function saveJournal() {
+  document.querySelectorAll('.journal-field').forEach((field) => {
+    localStorage.setItem('livrinho_' + field.dataset.key, field.value);
+  });
+  const indicator = document.getElementById('journalSaved');
+  if (indicator) {
+    indicator.classList.add('show');
+    clearTimeout(indicator._timeout);
+    indicator._timeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+  }
+}
+
+// Init
+renderSpread();
+updateTouchAreas();
+</script>
+
+</body>
+</html>
