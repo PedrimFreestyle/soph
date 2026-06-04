@@ -83,7 +83,7 @@
     transform: translateY(100%);
   }
 
-  /* Area visivel do livro (as duas paginas) */
+  /* Area visivel do livro (as duas páginas) */
   .spread {
     position: absolute;
     inset: 0;
@@ -185,7 +185,7 @@
     pointer-events: none;
   }
 
-  /* Area de toque nas paginas (clique na borda) */
+  /* Area de toque nas páginas (clique na borda) */
   .page-left, .page-right {
     cursor: pointer;
   }
@@ -431,7 +431,7 @@
 <script>
 const TOTAL_PAGES = 13;
 
-// Conteudo de todas as paginas (HTML bruto)
+// Conteudo de todas as páginas (HTML bruto)
 const pageContent = [
   // Pagina 0: Capa
   `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;">
@@ -446,20 +446,20 @@ const pageContent = [
   <div class="content-title">De onde veio o nome</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Taylor Alison Swift nasceu em 13 de dezembro de 1989, em Reading, Pennsylvania. O nome "Taylor" foi escolhido por sua mae porque e um nome de genero neutro - Andrea Swift queria que a filha fosse julgada pelo talento, nao pelo genero.</p>
-    <p>A familia se mudou para Nashville quando Taylor tinha 14 anos, apostando tudo no sonho musical.</p>
-    <div class="content-highlight">"Nao existem pessoas que nao tem nada a dizer. So existem pessoas que tem medo de dizer."</div>
+    <p>Taylor Alison Swift nasceu em 13 de dezembro de 1989, em Reading, Pennsylvania. O nome "Taylor" foi escolhido por sua mãe porque e um nome de gênero neutro - Andrea Swift queria que a filha fosse julgada pelo talento, não pelo gênero.</p>
+    <p>A família se mudou para Nashville quando Taylor tinha 14 anos, apostando tudo no sonho musical.</p>
+    <div class="content-highlight">"não existem pessoas que não tem nada a dizer. só existem pessoas que tem medo de dizer."</div>
   </div>
   <div class="page-number">— 1 —</div>`,
 
-  // Pagina 2: Numero 13
+  // Pagina 2: número 13
   `<div class="page-header">Curiosidade 2</div>
-  <div class="content-title">O numero 13</div>
+  <div class="content-title">O número 13</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Taylor considera o 13 seu numero da sorte. Nasceu no dia 13 de dezembro. Fez 13 anos numa sexta-feira 13. Seu primeiro album foi ouro em 13 semanas.</p>
-    <p>Em todos os shows, escreve o numero 13 na mao direita antes de subir ao palco. Os fas retribuem o gesto.</p>
-    <p>No Spotify, quebrou recordes em 13 mercados simultaneos com o album <em>Midnights</em>.</p>
+    <p>Taylor considera o 13 seu número da sorte. Nasceu no dia 13 de dezembro. Fez 13 anos numa sexta-feira 13. Seu primeiro álbum foi ouro em 13 semanas.</p>
+    <p>Em todos os shows, escreve o número 13 na mão direita antes de subir ao palco. Os fãs retribuem o gesto.</p>
+    <p>No Spotify, quebrou recordes em 13 mercados simultâneos com o álbum <em>Midnights</em>.</p>
   </div>
   <div class="page-number">— 2 —</div>`,
 
@@ -468,9 +468,9 @@ const pageContent = [
   <div class="content-title">Compositora desde sempre</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Aos 12 anos, Taylor ja escrevia suas proprias cancoes. Aprendeu violao sozinha — um tecnico que foi arrumar algo na casa dela a ensinou tres acordes. O resto descobriu por conta propria.</p>
-    <p>E a unica artista a ganhar o premio de Compositora do Ano da NSAI por sete vezes.</p>
-    <p>Escreveu sozinha o album <em>Speak Now</em> inteiro, como resposta aos criticos que duvidavam de sua autoria.</p>
+    <p>Aos 12 anos, Taylor já escrevia suas próprias canções. Aprendeu violão sozinha — um técnico que foi arrumar algo na casa dela a ensinou tres acordes. O resto descobriu por conta própria.</p>
+    <p>E a unica artista a ganhar o prêmio de Compositora do Ano da NSAI por sete vezes.</p>
+    <p>Escreveu sozinha o álbum <em>Speak Now</em> inteiro, como resposta aos críticos que duvidavam de sua autoria.</p>
   </div>
   <div class="page-number">— 3 —</div>`,
 
@@ -479,9 +479,9 @@ const pageContent = [
   <div class="content-title">Ama gatos (e muito)</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Taylor tem tres gatos: Meredith Grey, Olivia Benson (Scottish Folds) e Benjamin Button (Ragdoll). Os nomes vieram de personagens de series que ela ama.</p>
-    <p>Meredith e Olivia ja participaram de comerciais da Diet Coke. Benjamin foi adotado durante as gravacoes do clipe de "ME!" — ela se apaixonou por ele no set.</p>
-    <p>O patrimonio estimado das gatas? Cerca de 97 milhoes de dolares cada, segundo sites de pets de celebridades.</p>
+    <p>Taylor tem tres gatos: Meredith Grey, Olivia Benson (Scottish Folds) e Benjamin Button (Ragdoll). Os nomes vieram de personagens de séries que ela ama.</p>
+    <p>Meredith e Olivia já participaram de comerciais da Diet Coke. Benjamin foi adotado durante as gravações do clipe de "ME!" — ela se apaixonou por ele no set.</p>
+    <p>O patrimonio estimado das gatas? Cerca de 97 milhões de dolares cada, segundo sites de pets de celebridades.</p>
   </div>
   <div class="page-number">— 4 —</div>`,
 
@@ -490,9 +490,9 @@ const pageContent = [
   <div class="content-title">Taylor's Version</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Em 2019, os masters dos seus seis primeiros albuns foram vendidos sem o consentimento dela. A resposta? Regravar tudo.</p>
-    <p>O projeto "Taylor's Version" e um posicionamento sobre o direito de artistas serem donos da propria obra. Ela transformou uma derrota comercial num dos movimentos mais bem-sucedidos da industria.</p>
-    <div class="content-highlight">Cada regravacao superou a original em streams e vendas.</div>
+    <p>Em 2019, os masters dos seus seis primeiros álbuns foram vendidos sem o consentimento dela. A resposta? Regravar tudo.</p>
+    <p>O projeto "Taylor's Version" e um posicionamento sobre o direito de artistas serem donos da própria obra. Ela transformou uma derrota comercial num dos movimentos mais bem-sucedidos da indústria.</p>
+    <div class="content-highlight">Cada regravação superou a original em streams e vendas.</div>
   </div>
   <div class="page-number">— 5 —</div>`,
 
@@ -501,9 +501,9 @@ const pageContent = [
   <div class="content-title">The Eras Tour</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>A "The Eras Tour" se tornou a turne mais lucrativa da historia, ultrapassando 1 bilhao de dolares. Cada show dura mais de 3 horas, com 44+ cancoes e 16 trocas de figurino.</p>
-    <p>O impacto economico foi tao grande que o termo "Swiftonomics" passou a ser usado por economistas. Cidades registraram recordes de ocupacao hoteleira.</p>
-    <p>Ao todo, mais de 10 milhoes de ingressos foram vendidos mundialmente.</p>
+    <p>A "The Eras Tour" se tornou a turnê mais lucrativa da história, ultrapassando 1 bilhão de dolares. Cada show dura mais de 3 horas, com 44+ canções e 16 trocas de figurino.</p>
+    <p>O impacto econômico foi tão grande que o termo "Swiftonomics" passou a ser usado por economistas. Cidades registraram recordes de ocupação hoteleira.</p>
+    <p>Ao todo, mais de 10 milhões de ingressos foram vendidos mundialmente.</p>
   </div>
   <div class="page-number">— 6 —</div>`,
 
@@ -512,9 +512,9 @@ const pageContent = [
   <div class="content-title">Recordes no Grammy</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Taylor e a unica artista a vencer Album do Ano quatro vezes: <em>Fearless</em> (2010), <em>1989</em> (2016), <em>Folklore</em> (2021) e <em>Midnights</em> (2024).</p>
-    <p>Tem 14 Grammy Awards e mais de 50 indicacoes. Possui 40 American Music Awards — mais do que qualquer outro artista na historia.</p>
-    <p>Com <em>Midnights</em>, foi a primeira a ocupar simultaneamente as 10 primeiras posicoes da Billboard Hot 100.</p>
+    <p>Taylor e a unica artista a vencer álbum do Ano quatro vezes: <em>Fearless</em> (2010), <em>1989</em> (2016), <em>Folklore</em> (2021) e <em>Midnights</em> (2024).</p>
+    <p>Tem 14 Grammy Awards e mais de 50 indicações. Possui 40 American Music Awards — mais do que qualquer outro artista na história.</p>
+    <p>Com <em>Midnights</em>, foi a primeira a ocupar simultaneamente as 10 primeiras posições da Billboard Hot 100.</p>
   </div>
   <div class="page-number">— 7 —</div>`,
 
@@ -523,9 +523,9 @@ const pageContent = [
   <div class="content-title">Generosidade silenciosa</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Taylor e conhecida por fazer doacoes significativas sem anunciar publicamente. Durante a pandemia, ajudou financeiramente diversos fas em dificuldades.</p>
-    <p>Em 2015, doou 50 mil dolares para uma fa com cancer. Doou 1989 dolares para varios fas endividados com emprestimos estudantis.</p>
-    <p>Durante a The Eras Tour, fez doacoes milionarias para bancos de alimentos em todas as cidades por onde passou.</p>
+    <p>Taylor e conhecida por fazer doações significativas sem anunciar publicamente. Durante a pandemia, ajudou financeiramente diversos fãs em dificuldades.</p>
+    <p>Em 2015, doou 50 mil dolares para uma fa com cancer. Doou 1989 dolares para varios fãs endividados com emprestimos estudantis.</p>
+    <p>Durante a The Eras Tour, fez doações milionarias para bancos de alimentos em todas as cidades por onde passou.</p>
   </div>
   <div class="page-number">— 8 —</div>`,
 
@@ -534,15 +534,15 @@ const pageContent = [
   <div class="content-title">Easter eggs escondidos</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p>Taylor esconde pistas nos minimos detalhes. No clipe de "ME!", o letreiro no fundo ja dizia "Lover" — o nome do album que ninguem sabia ainda.</p>
-    <p>Usa a cor vermelha em clipes para paixao intensa, dourado para nostalgia, e azul para tristeza. No clipe de "Cardigan", ha uma referencia ao quadro "The Lovers".</p>
+    <p>Taylor esconde pistas nos mínimos detalhes. No clipe de "ME!", o letreiro no fundo já dizia "Lover" — o nome do álbum que ninguem sabia ainda.</p>
+    <p>Usa a cor vermelha em clipes para paixão intensa, dourado para nostalgia, e azul para tristeza. No clipe de "Cardigan", ha uma referencia ao quadro "The Lovers".</p>
     <div class="content-highlight">No clipe de "Bejeweled", ha uma referencia ao sequestro do Oscar de 2023 — filmado meses antes do acontecimento real.</div>
   </div>
   <div class="page-number">— 9 —</div>`,
 
   // Pagina 10: Contador
   `<div class="page-header">Nosso tempo</div>
-  <div class="content-title">Desde o dia que a gente comecou</div>
+  <div class="content-title">Desde o dia que a gente começou</div>
   <div class="content-rule"></div>
   <div class="content-text">
     <div class="counter-box">
@@ -550,19 +550,19 @@ const pageContent = [
       <div class="counter-label">dias juntos</div>
       <div class="counter-small">desde 4 de outubro de 2025</div>
     </div>
-    <p style="margin-top:20px;">Cada dia ao seu lado e um capitulo novo. E se esse livrinho pudesse ter paginas infinitas, eu preencheria todas com os momentos que a gente ainda vai viver.</p>
+    <p style="margin-top:20px;">Cada dia ao seu lado e um capítulo novo. E se esse livrinho pudesse ter páginas infinitas, eu preencheria todas com os momentos que a gente ainda vai viver.</p>
   </div>
   <div class="page-number">— 10 —</div>`,
 
   // Pagina 11: Cantinho Dela
-  `<div class="page-header">Seu espaco</div>
+  `<div class="page-header">Seu espaço</div>
   <div class="content-title">Meu Cantinho</div>
   <div class="content-rule"></div>
   <div class="content-text">
-    <p style="font-size:0.72rem;color:#9b8870;margin-bottom:18px;">Esse espaco e seu. Preencha como quiser - fica salvo aqui pra sempre que abrir o livrinho.</p>
-    <label class="journal-prompt">Meu album favorito:</label>
-    <input type="text" class="journal-line journal-field" placeholder="ex: folklore, 1989..." data-key="album">
-    <label class="journal-prompt">A musica que mais me define:</label>
+    <p style="font-size:0.72rem;color:#9b8870;margin-bottom:18px;">Esse espaço e seu. Preencha como quiser - fica salvo aqui pra sempre que abrir o livrinho.</p>
+    <label class="journal-prompt">Meu álbum favorito:</label>
+    <input type="text" class="journal-line journal-field" placeholder="ex: folklore, 1989..." data-key="álbum">
+    <label class="journal-prompt">A música que mais me define:</label>
     <input type="text" class="journal-line journal-field" placeholder="ex: Mirrorball, Long Live..." data-key="song">
     <label class="journal-prompt">Uma letra que me toca:</label>
     <input type="text" class="journal-line journal-field" placeholder="escreva um trecho..." data-key="lyric">
@@ -572,17 +572,17 @@ const pageContent = [
   </div>
   <div class="page-number">— 11 —</div>`,
 
-  // Pagina 12: Dedicacao
-  `<div class="page-header">E por ultimo...</div>
-  <div class="content-title">Uma dedicacao especial</div>
+  // Pagina 12: dedicação
+  `<div class="page-header">E por último...</div>
+  <div class="content-title">Uma dedicação especial</div>
   <div class="content-rule"></div>
   <div class="content-text">
     <p>Taylor Swift escreveu: <em>"The worst kind of person is someone who makes someone feel bad, dumb, or stupid for being excited about something."</em></p>
-    <p>E eu vejo seus olhos brilharem quando fala dela, da musica, das letras, dos shows. Vejo voce cantarolar as cancoes distraidamente. Essa paixao genuina que voce carrega... e uma das coisas que mais admiro em voce.</p>
+    <p>E eu vejo seus olhos brilharem quando fala dela, da música, das letras. Vejo você cantarolar as canções distraidamente. Essa carinho com tudo... e uma das coisas que mais admiro em você.</p>
     <div class="content-highlight">
       Fiz esse livrinho como um jeito simples de dizer:<br>
-      eu presto atencao. no que voce ama,<br>
-      no que te faz feliz, em voce.
+      eu presto atenção. no que você ama,<br>
+      no que te faz feliz, em você.
     </div>
     <p style="text-align:right;margin-top:10px;color:#8b7355;font-style:italic;">— com carinho, de quem te adora.</p>
   </div>
@@ -642,7 +642,7 @@ function flipForward() {
   elFlip.className = 'page-flip forward';
   elFlip.style.display = 'block';
 
-  // Ja atualiza a pagina direita com o novo conteudo
+  // já atualiza a pagina direita com o novo conteudo
   elRight.innerHTML = pageContent[currentPage + 1];
 
   // Forca reflow
@@ -706,7 +706,7 @@ function flipBackward() {
   }, 650);
 }
 
-// Toque / clique nas paginas (ignora inputs)
+// Toque / clique nas páginas (ignora inputs)
 elRight.addEventListener('click', (e) => {
   const tag = e.target.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'LABEL') return;
